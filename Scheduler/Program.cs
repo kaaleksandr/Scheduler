@@ -18,11 +18,11 @@ namespace Scheduler
         [STAThread]
         static void Main()
         {
-            var days = Helper.GetDays(2018, 10);
+            //var days = Helper.GetDays(2020, 10);
 
-            var d = new Day(days[0].Date, Helper.GetHtmlDocument(days[0].HtmlPath));
+            //var d = new Day(days[0].Date, Helper.GetHtmlDocument(days[0].HtmlPath));
 
-            var doc = Helper.CreateDocument(new List<DaysPravoslavie.Day>());
+            //var doc = Helper.CreateDocument(new List<Day>());
 
             //foreach(var ds in days)
             //{
@@ -31,7 +31,7 @@ namespace Scheduler
 
             //}
 
-            return;
+            //return;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
