@@ -18,9 +18,14 @@ namespace Scheduler
         [STAThread]
         static void Main()
         {
-            //var days = Helper.GetDays(2020, 10);
+            //var days = Helper.GetDays(2016, 10);
 
-            //var d = new Day(days[0].Date, Helper.GetHtmlDocument(days[0].HtmlPath));
+            //var htmlDoc = Helper.GetHtmlDocument(days[0].HtmlPath);
+            //var months = Helper.GetMonth(htmlDoc);
+
+            //var d = new Day(days[0].Date, htmlDoc);
+
+            //return;
 
             //var doc = Helper.CreateDocument(new List<Day>());
 
