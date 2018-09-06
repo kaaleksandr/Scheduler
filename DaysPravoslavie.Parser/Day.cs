@@ -1,4 +1,8 @@
-﻿using System;
+﻿//
+// Copyright (c) SoftTonna, 2018
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -103,7 +107,7 @@ namespace DaysPravoslavie
         /// 
         /// </summary>
         /// <returns></returns>
-        public string[] GetRowContent()
+        public string[] GetRowContent(out bool isCeleb)
         {
             string[] line = new string[Helper.ColumnCount];
 
@@ -113,10 +117,12 @@ namespace DaysPravoslavie
 
             // Дата.
             line[0] = DateTime.Day + " " + Helper.DateFormat.AbbreviatedMonthNames[DateTime.Month - 1];
+
             // День недели.
             line[1] = Helper.DateFormat.DayNames[(int)DateTime.DayOfWeek];
+
             // Месяцеслов.
-            if (GreatCelebrations.Count > 0)
+            if (isCeleb = GreatCelebrations.Count > 0)
             {
                 line[2] = string.Join(" ", GreatCelebrations);
             }

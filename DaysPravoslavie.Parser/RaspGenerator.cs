@@ -1,15 +1,14 @@
-﻿using System;
+﻿//
+// Copyright (c) SoftTonna, 2018
+//
+
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using DaysPravoslavie;
-
-namespace Scheduler
+namespace DaysPravoslavie
 {
-    static class RaspGenerator
+    public static class RaspGenerator
     {
         /// <summary>
         /// 
@@ -40,9 +39,6 @@ namespace Scheduler
 
                 logCallback("Создание документа: " + fname);
 
-                var doc = Helper.CreateDocument(days, progressCallback);
-                
-
                 //
                 // Удалить ранее созданный файл.
                 //
@@ -52,7 +48,16 @@ namespace Scheduler
                     File.Delete(path);
                 }
 
-                doc.Save(path);
+                //
+                // Создать документ.
+                //
+
+                Helper.CreateDocumentFree(path, days, progressCallback);
+
+                //var doc = Helper.CreateDocument(days, progressCallback);
+
+
+                //doc.Save(path);
 
                 logCallback("Документ создан: " + fname);
             }
