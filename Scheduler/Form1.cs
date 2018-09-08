@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using DaysPravoslavie;
+using System.Net.NetworkInformation;
 
 namespace Scheduler
 {
@@ -143,6 +144,31 @@ namespace Scheduler
         }
 
         /// <summary>
+        /// Проверяет доступность ресурса.
+        /// </summary>
+        private void PingTest()
+        {
+            Ping ping = new Ping();
+            PingReply result;
+
+            try
+            {
+                result = ping.Send("days.pravoslavie.ru");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ресурс: days.pravoslavie.ru недоступен.\n" +
+                        "Проверьте подключение к интернету.");
+            }
+
+            if (result.Status != IPStatus.Success)
+            {
+                throw new Exception("Ресурс days.pravoslavie.ru недоступен.\n" +
+                    "Проверьте подключение к интернету.");
+            }
+        }
+
+        /// <summary>
         /// Возвращает значение ранее установленной выходной директории.
         /// </summary>
         /// <returns></returns>
@@ -155,7 +181,7 @@ namespace Scheduler
                 if (reg != null)
                 {
                     var val = reg.GetValue(RecentOutDir) as string;
-                    return val ?? "";
+                    return val ?? Environment.CurrentDirectory;
                 }
             }
             finally
@@ -166,7 +192,7 @@ namespace Scheduler
                 }
             }
 
-            return "";
+            return Environment.CurrentDirectory;
         }
 
         /// <summary>
@@ -201,6 +227,16 @@ namespace Scheduler
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="enabled"></param>
+        private void EnableUI(bool enabled)
+        {
+            splitContainer1.Enabled = enabled;
+            browseButton.Enabled = enabled;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void browseButton_Click(object sender, EventArgs e)
@@ -221,7 +257,11 @@ namespace Scheduler
         {
             try
             {
+                EnableUI(false);
+
                 DoCheck();
+
+                PingTest();
 
                 int year = (yearList.SelectedItem as MyListItem<int>).Tag;
 
@@ -243,6 +283,10 @@ namespace Scheduler
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message, "Создать расписание", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                EnableUI(true);
             }
         }
 

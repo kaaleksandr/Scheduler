@@ -146,9 +146,11 @@
             // 
             this.logLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.logLabel.AutoSize = true;
+            this.logLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.logLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.logLabel.Location = new System.Drawing.Point(10, 377);
             this.logLabel.Name = "logLabel";
-            this.logLabel.Size = new System.Drawing.Size(0, 13);
+            this.logLabel.Size = new System.Drawing.Size(0, 17);
             this.logLabel.TabIndex = 9;
             // 
             // splitContainer1
