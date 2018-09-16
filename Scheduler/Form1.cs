@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using DaysPravoslavie;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 
 namespace Scheduler
 {
@@ -230,6 +231,7 @@ namespace Scheduler
         /// <param name="enabled"></param>
         private void EnableUI(bool enabled)
         {
+            createButton.Enabled = enabled;
             splitContainer1.Enabled = enabled;
             browseButton.Enabled = enabled;
         }
@@ -253,7 +255,7 @@ namespace Scheduler
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void createButton_Click(object sender, EventArgs e)
+        private async void createButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -263,17 +265,13 @@ namespace Scheduler
 
                 PingTest();
 
-                int year = (yearList.SelectedItem as MyListItem<int>).Tag;
-
-                List<int> mons = new List<int>(monthList.CheckedItems.Count);
-                foreach(var item in monthList.CheckedItems)
-                {
-                    mons.Add((item as MyListItem<int>).Tag);
-                }
-
                 UpdateLog("Подключение к http://days.pravoslavie.ru");
 
-                RaspGenerator.Generate(outDir.Text, year, mons, UpdateProgress, UpdateLog);
+                UpdateProgress(-1);
+
+                int selectedYear = (yearList.SelectedItem as MyListItem<int>).Tag;
+
+                await DoWork(selectedYear);
 
                 MessageBox.Show("Файлы расписаний созданы", "Создать файлы расписания", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -282,7 +280,7 @@ namespace Scheduler
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, "Создать расписание", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\n\nДополнительная информация:\n" + ex.StackTrace, "Создать расписание", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -291,13 +289,43 @@ namespace Scheduler
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private Task DoWork(int selectedYear)
+        {
+            return Task.Run(() =>
+            {
+                List<int> mons = new List<int>(monthList.CheckedItems.Count);
+                foreach (var item in monthList.CheckedItems)
+                {
+                    mons.Add((item as MyListItem<int>).Tag);
+                }
+
+                RaspGenerator.Generate(outDir.Text, selectedYear, mons, UpdateProgress, UpdateLog);
+            });
+        }
+
+        /// <summary>
         /// Обновляет прогресс.
         /// </summary>
         /// <param name="current"></param>
         private void UpdateProgress(int current)
         {
-            progressBar.Value = current;
-            Application.DoEvents();
+            Invoke(new Action(() =>
+            {
+                if (current < 0)
+                {
+                    progressBar.Style = ProgressBarStyle.Marquee;
+                }
+                else
+                {
+                    progressBar.Style = ProgressBarStyle.Blocks;
+                    progressBar.Value = current;
+                }
+
+                Application.DoEvents();
+            }));
         }
 
         /// <summary>
@@ -306,7 +334,11 @@ namespace Scheduler
         /// <param name="message"></param>
         private void UpdateLog(string message)
         {
-            logLabel.Text = message;
+            Invoke(new Action(() =>
+            {
+                logLabel.Text = message;
+            }));
+
             Application.DoEvents();
         }
 

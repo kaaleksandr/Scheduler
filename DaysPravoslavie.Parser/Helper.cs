@@ -136,23 +136,22 @@ namespace DaysPravoslavie
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="daysFromMonth"></param>
+        /// <param name="days"></param>
         /// <param name="progressCallback"></param>
         /// <returns></returns>
-        public static void CreateDocumentFree(string fname, List<Day> daysFromMonth, Action<int> progressCallback)
+        public static void CreateDocument(string fname, List<Day> days, Action<int> progressCallback)
         {
-            // todo:
             if (string.IsNullOrEmpty(fname))
             {
                 throw new ArgumentNullException("fname");
             }
 
-            var firstDay = daysFromMonth.First();
+            var firstDay = days.First();
             string monthAndYearString = GetDateStringForDate(firstDay.DateTime);
 
             using (DocX document = DocX.Create(fname))
             {
-                var t = document.AddTable(HeaderRowsCount + daysFromMonth.Count, ColumnCount);
+                var t = document.AddTable(HeaderRowsCount + days.Count, ColumnCount);
                 t.Alignment = Alignment.center;
                 t.AutoFit = AutoFit.Window;
 
@@ -187,14 +186,14 @@ namespace DaysPravoslavie
                 t.Rows[2].Cells[3].Paragraphs[0].Append("Переходящие праздники").Alignment = Alignment.center;
                 t.Rows[2].Cells[4].Paragraphs[0].Append("Богослужение").Alignment = Alignment.center;
 
-                for (int i = 0; i < daysFromMonth.Count; i += 1)
+                for (int i = 0; i < days.Count; i += 1)
                 {
                     /** Праздник. */
                     bool isCeleb;
-                    var line = daysFromMonth[i].GetRowContent(out isCeleb);
+                    var line = days[i].GetRowContent(out isCeleb);
 
                     Color colorDay;
-                    if (isCeleb || daysFromMonth[i].DateTime.DayOfWeek == DayOfWeek.Sunday)
+                    if (isCeleb || days[i].DateTime.DayOfWeek == DayOfWeek.Sunday)
                     {
                         colorDay = Color.Red;
                     }
@@ -221,7 +220,7 @@ namespace DaysPravoslavie
                         }
                     }
 
-                    progressCallback(GetProgress(i, daysFromMonth.Count));
+                    progressCallback(GetProgress(i, days.Count));
                 }
 
                 //

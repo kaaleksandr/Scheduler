@@ -27,8 +27,11 @@ namespace DaysPravoslavie
 
             for(int i = 0; i < months.Count; i += 1)
             {
+                /** Имя файла расписания. */
                 string fname = prefix + "-" + Helper.DateFormat.MonthNames[months[i] - 1] + ".docx";
+                /** Полный путь до файла расписания. */
                 string path = Path.Combine(outDir, fname);
+
                 var pdays = Helper.GetDays(year, months[i]);
                 List<Day> days = new List<Day>(pdays.Count);
 
@@ -52,12 +55,7 @@ namespace DaysPravoslavie
                 // Создать документ.
                 //
 
-                Helper.CreateDocumentFree(path, days, progressCallback);
-
-                //var doc = Helper.CreateDocument(days, progressCallback);
-
-
-                //doc.Save(path);
+                Helper.CreateDocument(path, days, progressCallback);
 
                 logCallback("Документ создан: " + fname);
             }

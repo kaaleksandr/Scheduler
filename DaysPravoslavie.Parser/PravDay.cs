@@ -14,6 +14,10 @@ namespace DaysPravoslavie
         private const string IntFormat = "D2";
         public const string DotHtml = ".html";
         public const string HttpPath = "http://days.pravoslavie.ru/Days/";
+        public const int OldStyleCorrection = -13;
+
+        private DateTime _date;
+        private DateTime _oldDate;
 
         /// <summary>
         /// Конструктор.
@@ -21,19 +25,35 @@ namespace DaysPravoslavie
         /// <param name="date">Дата.</param>
         public PravDay(DateTime date)
         {
-            Date = date;
+            _date = date;
+            _oldDate = date.AddDays(OldStyleCorrection);
+
             HtmlPath =
-                HttpPath + 
-                Date.Year.ToString() + 
-                Date.Month.ToString(IntFormat) + 
-                Date.Day.ToString(IntFormat) + 
+                HttpPath +
+                _oldDate.Year.ToString() +
+                _oldDate.Month.ToString(IntFormat) +
+                _oldDate.Day.ToString(IntFormat) + 
                 DotHtml;
         }
 
         /// <summary>
-        /// 
+        /// Дата по новому стилю.
         /// </summary>
-        public DateTime Date { get; private set; }
+        public DateTime Date
+        {
+            get { return _date; }
+        }
+
+        /// <summary>
+        /// Дата по старому стилю.
+        /// </summary>
+        public DateTime OldStyleDate
+        {
+            get
+            {
+                return Date.AddDays(OldStyleCorrection);
+            }
+        }
 
         /// <summary>
         /// Полный путь.
