@@ -111,10 +111,6 @@ namespace DaysPravoslavie
         {
             string[] line = new string[Helper.ColumnCount];
 
-            string tmp = DateTime.ToString("m");
-            int spacePos = tmp.IndexOf(' ');
-            tmp = tmp.Substring(0, spacePos + 4);
-
             // Дата.
             line[0] = DateTime.Day + " " + Helper.DateFormat.AbbreviatedMonthNames[DateTime.Month - 1];
 
