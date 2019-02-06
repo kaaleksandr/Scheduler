@@ -45,17 +45,6 @@ namespace DaysPravoslavie
         }
 
         /// <summary>
-        /// Дата по старому стилю.
-        /// </summary>
-        public DateTime OldStyleDate
-        {
-            get
-            {
-                return Date.AddDays(OldStyleCorrection);
-            }
-        }
-
-        /// <summary>
         /// Полный путь.
         /// </summary>
         public string HtmlPath

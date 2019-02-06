@@ -18,8 +18,10 @@ namespace DaysPravoslavie
         public const int ColumnCount = 5;
         public const int HeaderRowsCount = 3;
 
+        /// <summary>
+        /// Максимальное кол-во записей мясецеслова.
+        /// </summary>
         public const int MaxCountOfMonth = 5;
-        //public static readonly Color TableBorderColor = Color.Black;
 
         public static CultureInfo RussianCulture = CultureInfo.CreateSpecificCulture("ru-Ru");
         public static DateTimeFormatInfo DateFormat = RussianCulture.DateTimeFormat;
