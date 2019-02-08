@@ -296,13 +296,14 @@ namespace Scheduler
         {
             return Task.Run(() =>
             {
+                bool createXlsxFile = true;
                 List<int> mons = new List<int>(monthList.CheckedItems.Count);
                 foreach (var item in monthList.CheckedItems)
                 {
                     mons.Add((item as MyListItem<int>).Tag);
                 }
 
-                RaspGenerator.Generate(outDir.Text, selectedYear, mons, UpdateProgress, UpdateLog);
+                RaspGenerator.Generate(outDir.Text, createXlsxFile, selectedYear, mons, UpdateProgress, UpdateLog);
             });
         }
 

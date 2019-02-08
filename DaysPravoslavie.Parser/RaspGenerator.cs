@@ -16,7 +16,7 @@ namespace DaysPravoslavie
         /// <param name="outDir"></param>
         /// <param name="year"></param>
         /// <param name="months"></param>
-        public static void Generate(string outDir, int year, List<int> months, Action<int> progressCallback, Action<string> logCallback)
+        public static void Generate(string outDir, bool createXlsxFile, int year, List<int> months, Action<int> progressCallback, Action<string> logCallback)
         {
             if (progressCallback == null)
             {
@@ -55,7 +55,7 @@ namespace DaysPravoslavie
                 // Создать документ.
                 //
 
-                Helper.CreateDocument(path, days, progressCallback);
+                Helper.CreateDocument(path, createXlsxFile, days, progressCallback);
 
                 logCallback("Документ создан: " + fname);
             }
