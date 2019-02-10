@@ -57,7 +57,7 @@ namespace DaysPravoslavie
 
                 Helper.CreateDocument(path, createXlsxFile, days, progressCallback);
 
-                logCallback("Документ создан: " + fname);
+                logCallback("Созданы документы: " + fname + "(*.xslx)");
             }
         }
     }
